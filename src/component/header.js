@@ -8,16 +8,47 @@ import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-
-import './css/header.css'
-
-
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 
-export default function Header(props) {
+
+const useStyles = makeStyles({
+    container : {
+        background: 'blue',
+        paddingRight: '40px',
+        paddingBottom: '10px',
+    },
+    formControl:{
+        width:'calc(90vw - 850px)',
+        marginTop:'25px',
+        
+    },
+
+    search:{
+        color:'white',
+    },
+    filter:{
+        background:'white'
+    },
+
+    label:{
+        color:'black',
+        zIndex:'10',
+    },
+    
+    outlined :{
+        color:'white',
+    }
+})
+
+
+
+
+export default function Header({filterData}) {
+    const classes = useStyles()
     const [data, setData] = useState([]);
     const [choose, setChoose] = useState([])
-
     useEffect(() => {
         fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
         .then(res =>{
@@ -40,34 +71,58 @@ export default function Header(props) {
         })
 
         const handleChange = event => {
-            setChoose(event.target.value)  
+            setChoose(event.target.value)
         }
+        filterData(choose)
 
-        
     return (
-        <div className="container">
-            <Container fixed>
-              <TextField id="search" label="Search Furniture" />
-            </Container>
-        
-
+    <div className={classes.container}>
+        <Container fixed>
+              <TextField className={classes.search}          
+                label="Search Furniture" />
+        </Container>
             <Container fixed >
-                <FormControl className="form-container" >
-                <InputLabel id="demo-mutiple-checkbox-label">Furtniture Style</InputLabel>
-                    <Select 
-                        id="demo-mutiple-checkbox"
-                        placeholder="Furniture Style"
-                        multiple
-                        value ={choose}
-                        input={<Input />}
-                        onChange={handleChange}   
-                        renderValue={selected => selected.join(', ')}
-                        variant="outlined"
-                        >
-                        {optionSelect}
-                    </Select>
-                </FormControl>
-            </Container>
-        </div>
+                <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                 <FormControl  className={classes.formControl}>
+                     <InputLabel className={classes.label}>
+                     Furtniture Style
+                    </InputLabel>
+                        <Select 
+                            id="demo-mutiple-checkbox"
+                            placeholder="Furniture Style"
+                            multiple
+                            value ={choose}
+                            input={<Input />}
+                            onChange={handleChange}   
+                            renderValue={selected => selected.join(', ')}
+                            className={classes.filter}
+                            >
+                            {optionSelect}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                 <FormControl  className={classes.formControl}>
+                     <InputLabel className={classes.label}>
+                     Furtniture Style
+                    </InputLabel>
+                        <Select 
+                            id="demo-mutiple-checkbox"
+                            placeholder="Furniture Style"
+                            multiple
+                            value ={choose}
+                            input={<Input />}
+                            onChange={handleChange}   
+                            renderValue={selected => selected.join(', ')}
+                            className={classes.filter}
+                            >
+                            {optionSelect}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
+        </Container>
+    </div>
     )
 }
