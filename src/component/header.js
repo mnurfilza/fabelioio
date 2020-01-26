@@ -47,8 +47,10 @@ const useStyles = makeStyles({
 
 export default function Header({filterData}) {
     const classes = useStyles()
+    const [deliv, setDelivery] = useState()
     const [data, setData] = useState([]);
     const [choose, setChoose] = useState([])
+
     useEffect(() => {
         fetch('http://www.mocky.io/v2/5c9105cb330000112b649af8')
         .then(res =>{
@@ -70,6 +72,11 @@ export default function Header({filterData}) {
             )
         })
 
+
+        const deliveryChange = event => {
+            setDelivery(event.target.value)
+        }
+        console.log(deliv)
         const handleChange = event => {
             setChoose(event.target.value)
         }
@@ -91,7 +98,7 @@ export default function Header({filterData}) {
                         <Select 
                             id="demo-mutiple-checkbox"
                             placeholder="Furniture Style"
-                            multiple
+                            native
                             value ={choose}
                             input={<Input />}
                             onChange={handleChange}   
@@ -105,7 +112,7 @@ export default function Header({filterData}) {
                 <Grid item xs={12} sm={6}>
                  <FormControl  className={classes.formControl}>
                      <InputLabel className={classes.label}>
-                     Furtniture Style
+                     Delivery Time
                     </InputLabel>
                         <Select 
                             id="demo-mutiple-checkbox"
@@ -113,12 +120,14 @@ export default function Header({filterData}) {
                             multiple
                             value ={choose}
                             input={<Input />}
-                            onChange={handleChange}   
-                            renderValue={selected => selected.join(', ')}
+                            onChange={deliveryChange}   
                             className={classes.filter}
                             >
-                            {optionSelect}
-                        </Select>
+                                <option value="" />
+                                <option value={10}>Ten</option>
+                                <option value={20}>Twenty</option>
+                                <option value={30}>Thirty</option>
+                            </Select>
                     </FormControl>
                 </Grid>
             </Grid>

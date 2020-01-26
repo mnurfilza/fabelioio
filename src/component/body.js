@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
       },
      
     },
-
     card: {
         minWidth: 300,
         padding:"15px",
@@ -102,7 +101,7 @@ export default function Body() {
     })
 
 
-    
+
     return (
         <div>
             <Header filterData={filterData}/>
